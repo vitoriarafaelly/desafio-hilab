@@ -13,8 +13,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.desafoHilab2.people.Service.PeopleService;
+import com.desafoHilab2.people.model.Address;
 import com.desafoHilab2.people.model.People;
+import com.desafoHilab2.people.model.Phones;
+import com.desafoHilab2.people.repository.AddressRepository;
 import com.desafoHilab2.people.repository.PeopleRepository;
+import com.desafoHilab2.people.repository.PhonesRepository;
 
 
 @Service
@@ -22,6 +26,8 @@ public class PeopleServiceImpl implements PeopleService {
 	
 	@Autowired
 	PeopleRepository peopleRepository;
+	AddressRepository addressRepository;
+	PhonesRepository phonesRepository;
 
 	@Override
 	public List<People> findAll() {
@@ -35,12 +41,20 @@ public class PeopleServiceImpl implements PeopleService {
 	}
 
 	@Override
-	public People create(People people) {
+	public People create(@Valid @RequestBody People people) {
+		Address address = this.addressRepository
+				.findById(people.getAddress().getId())
+				.orElseThrow(() -> new IllegalArgumentException("Address not found"));
+		Phones phones = this.phonesRepository
+				.findById(people.getPhones().getId())
+				.orElseThrow(() -> new IllegalArgumentException("Phones not found"));
+		people.setAddress(address);
+		people.setPhones(phones);
 		return this.peopleRepository.save(people);
 	}
 
 	@Override
-	public ResponseEntity<People> update(@PathVariable("id") String id, @Valid @RequestBody People people) {
+	public ResponseEntity<People> update(@Valid @PathVariable("id") String id, @Valid @RequestBody People people) {
 		Optional<People> peopleData = peopleRepository.findById(id);
 		if(peopleData.isPresent()) {
 			People peopleUp = peopleData.get();
@@ -61,6 +75,11 @@ public class PeopleServiceImpl implements PeopleService {
 	@Override
 	public void delete(People people) {
 		this.peopleRepository.delete(people);
+	}
+
+	@Override
+	public List<People> findByName(String name) {
+		return peopleRepository.findByName(name);
 	}
 
 

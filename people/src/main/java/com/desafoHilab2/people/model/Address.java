@@ -27,8 +27,17 @@ public class Address {
 	@NotBlank
 	private String district;
 	
-	public Address() {
+	public Address(String id, String type, String zipcode, String state, String city, String street, String number, String complement, String district) {
 		super();
+		this.id = id;
+		this.type = type;
+		this.zipcode = zipcode;
+		this.state = state;
+		this.city = city;
+		this.street = street;
+		this.number = number;
+		this.complement = complement;
+		this.district = district;
 	}
 	public String getId() {
 		return id;

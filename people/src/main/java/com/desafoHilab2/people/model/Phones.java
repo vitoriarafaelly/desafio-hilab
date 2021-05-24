@@ -1,7 +1,5 @@
 package com.desafoHilab2.people.model;
 
-import javax.validation.constraints.NotBlank;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -12,7 +10,6 @@ import lombok.Data;
 public class Phones {
 	@Id
 	private String id;
-	@NotBlank
 	private String[] number;
 	
 	public Phones(String id, String[] number) {

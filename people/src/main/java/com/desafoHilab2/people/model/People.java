@@ -1,7 +1,5 @@
 package com.desafoHilab2.people.model;
 
-import javax.validation.constraints.NotBlank;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -13,19 +11,13 @@ import lombok.Data;
 public class People {
 	@Id
 	private String id;
-	@NotBlank
 	private String status;
-	@NotBlank
 	private String givenName;
-	@NotBlank
 	private String familyName;
-	@NotBlank
 	private String birthDate;
 	@DBRef
-	@NotBlank
 	private Address address;
 	@DBRef
-	@NotBlank
 	private Phones phones;
 	
 	public People(String id, String status, String givenName, String familyName, String birthDate, Address address, Phones phones) {
